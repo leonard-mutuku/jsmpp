@@ -2,6 +2,10 @@
 
 This is a spring boot, java Jsmpp integration. The application uses java org.jsmpp dependancy for sending and receiving sms using smpp bind. The application can be run as; Transceiver(TRX) -> sending & reciving, Transimter(TX) -> sending only, or Receiver(RX) -> receiving only. configurations can be set in the application.yaml or by overidding defaults configs at run time through -D....(property name) java options.
 
+Applications runs on java 17 and spring boot version 3.0.2.
+
+Logging is done through logback, configuration file -> logback-spring.xml
+
 ## Available scripts
 
 In the project directory, you can run:
