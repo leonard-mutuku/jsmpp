@@ -1,0 +1,1 @@
+# Java jsmpp implementation

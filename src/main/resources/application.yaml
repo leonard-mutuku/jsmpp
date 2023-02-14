@@ -1,0 +1,32 @@
+
+#server configs
+server.port: 8080
+server.servlet.context-path: /
+server.tomcat.accesslog.enabled: true
+server.tomcat.accesslog.file-date-format: _yyyy-MM-dd
+server.tomcat.accesslog.directory: /tmp/tomcat-accesslogs/
+
+#logging configs
+logging:
+  level:
+    org.springframework: info
+    org.jsmpp: info
+    org.jsmpp.session.SMPPSession: info
+
+#smpp configs
+configs:
+  smpp:
+    host: 127.0.0.1
+    port: 6692
+    user-id: username
+    password: password
+    bind-type: TX
+    bind-timeout: 15000
+    enquire-link-timer: 30000
+    transaction-timer: 15000
+  client:
+    number-of-client-sessions: 10
+    smpp-work-queue-capacity: 250
+  app:
+    logs-location: /tmp/logs
+    logs-timezone: Africa/Nairobi

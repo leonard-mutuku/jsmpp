@@ -1,0 +1,59 @@
+<configuration>
+    
+    <property scope="context" name="log.ext" value="log" />
+    <springProperty scope="context" name="bind.type" source="configs.smpp.bind-type"/>
+    <springProperty scope="context" name="log.dir" source="configs.app.logs-location"/>
+    <springProperty scope="context" name="log.tz" source="configs.app.logs-timezone"/>
+    <contextName>smpp-${bind.type}</contextName>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss, ${log.tz}} %-5level %contextName %F:%L - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="SMPP_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/smpp_%d{yyyy-MM-dd, ${log.tz}}.${log.ext}</fileNamePattern>
+            <!-- keep 14 days' worth of history -->
+            <maxHistory>14</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss, ${log.tz}} %-5level %contextName %F:%L - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="SMS_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/sms_%d{yyyy-MM-dd, ${log.tz}}.${log.ext}</fileNamePattern>
+            <!-- keep 3 months worth of history -->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss, ${log.tz}} %-5level %contextName %F:%L - %msg%n</pattern>
+        </encoder>
+    </appender>                  
+
+    <logger name="com.smpp" level="DEBUG" />
+    <logger name="org.springframework" level="INFO" />
+    
+    <logger name="org.jsmpp.session.SMPPSession" level="INFO" additivity="false">
+        <appender-ref ref="SMPP_LOG"/>
+    </logger>      
+    <logger name="SMPP_LOG" level="DEBUG" additivity="false">
+        <appender-ref ref="SMPP_LOG"/>
+    </logger>   
+    <logger name="SMS_LOG" level="DEBUG" additivity="false">
+        <appender-ref ref="SMS_LOG"/>
+    </logger>
+    
+    <root level="WARN">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
