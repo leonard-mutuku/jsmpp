@@ -6,6 +6,8 @@ Applications runs on java 17 and spring boot version 3.0.2.
 
 Logging is done through logback, configuration file -> logback-spring.xml
 
+Jsmpp Server simulator implementation for the client is here https://github.com/leonard-mutuku/jsmppServer
+
 ## Available scripts
 
 In the project directory, you can run:
@@ -18,6 +20,6 @@ This command clean builds the project.
 
 This command runs the build application. If the application is run as a TRX or TX, it exposes a rest endpoint (http://127.0.0.1:8080/smpp/sms) which can be used to send an sms.
 
-### `java -jar target/crud-0.0.1.jar`
+### `java -jar target/smpp-${version}.jar`
 
 This command is used to run the generated fat jar and its the same jar that can be copied & deployed in production environments.

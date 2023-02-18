@@ -37,11 +37,11 @@ public class MessageReceiverListenerImpl implements MessageReceiverListener {
                 String messageId = delReceipt.getId();
                 String msisdn = deliverSm.getSourceAddr();
                 String sender = deliverSm.getDestAddress();
-                Integer statusId = delReceipt.getDelivered();
+                Integer delivered = delReceipt.getDelivered();
                 String status = delReceipt.getFinalStatus().name();
                 String date = Utils.formatEATDate(delReceipt.getDoneDate());
 
-                DLReport dlr = new DLReport(messageId, msisdn, sender, statusId, status, date);
+                DLReport dlr = new DLReport(messageId, msisdn, sender, delivered, status, date);
                 Constants.SMS_LOGGER.info("Receiving DLR => Dlr : {}", Utils.toJson(dlr));
             } catch (InvalidDeliveryReceiptException e) {
                 Constants.SMS_LOGGER.error("Failed getting DLR. Error is {}", e);

@@ -25,7 +25,7 @@ public class DLReport implements Serializable {
     private String messageId;
     private String msisdn;
     private String sender;
-    private Integer statusId;
+    private Integer delivered;
     private String status;
     private String date;
 

@@ -56,6 +56,7 @@ public class SmppSessionListener implements ApplicationContextAware {
         } else {
             Constants.SMPP_LOGGER.error("enquire link running while session is not connected");
             //publish event to reshesh session, since session is in closed state
+            createSmppSession();
         }
     }
 
@@ -78,19 +79,20 @@ public class SmppSessionListener implements ApplicationContextAware {
         ConnectionFactory cf = getConnectionFactory(smpp.getBindTimeout());
         SMPPSession session = new SMPPSession(cf);
         BindType bindType = getSmppBindType(smpp.getBindtype());
+        InterfaceVersion ifv = InterfaceVersion.IF_50;
         try {
             if (bindType.equals(BindType.BIND_RX) || bindType.equals(BindType.BIND_TRX)) {
                 session.setMessageReceiverListener(ctx.getBean(MessageReceiverListenerImpl.class));
             }
             session.addSessionStateListener(new SessionStateListenerImpl());
-            session.setInterfaceVersion(InterfaceVersion.IF_50);
+            session.setInterfaceVersion(ifv);
             session.setEnquireLinkTimer(smpp.getEnquireLinkTimer()); //smpp session enquire link timer
             session.setTransactionTimer(smpp.getTransactionTimer()); //maximum waiting time for each submit request
             session.setPduProcessorDegree(properties.getClient().getNumberOfClientSessions());
             session.setQueueCapacity(properties.getClient().getSmppWorkQueueCapacity());
 
             BindParameter bp = new BindParameter(bindType, smpp.getUserId(), smpp.getPassword(), "smpp",
-                    TypeOfNumber.UNKNOWN, NumberingPlanIndicator.UNKNOWN, null);
+                    TypeOfNumber.UNKNOWN, NumberingPlanIndicator.UNKNOWN, null, ifv);
             String systemId = session.connectAndBind(smpp.getHost(), smpp.getPort(), bp, smpp.getBindTimeout());
 
             SmppSessionDelegate.setSession(session);

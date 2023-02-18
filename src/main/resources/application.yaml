@@ -17,10 +17,10 @@ logging:
 configs:
   smpp:
     host: 127.0.0.1
-    port: 6692
+    port: 2775
     user-id: username
     password: password
-    bind-type: TX
+    bind-type: TRX
     bind-timeout: 15000
     enquire-link-timer: 30000
     transaction-timer: 15000
